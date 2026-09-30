@@ -100,7 +100,7 @@ function seedIfEmpty(db) {
   const medIds = db.prepare('SELECT id, scheduled_time FROM medications WHERE patient_id = ?').all(patientId);
   const takenMorning = medIds.filter(m => m.scheduled_time === '09:00').slice(0, 4);
   const insertLog = db.prepare(
-    'INSERT INTO dose_logs (medication_id, logged_at, status, note) VALUES (?, datetime("now", "localtime"), ?, ?)'
+    "INSERT INTO dose_logs (medication_id, logged_at, status, note) VALUES (?, datetime('now','localtime'), ?, ?)"
   );
   for (const m of takenMorning) {
     insertLog.run(m.id, 'taken', null);

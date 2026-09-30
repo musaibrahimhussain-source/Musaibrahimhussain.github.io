@@ -19,7 +19,7 @@ app.get('/api/dashboard', (req, res) => {
     .all(patient.id);
 
   const appointments = db
-    .prepare('SELECT * FROM appointments WHERE patient_id = ? AND status = "upcoming" ORDER BY date LIMIT 1')
+    .prepare("SELECT * FROM appointments WHERE patient_id = ? AND status = 'upcoming' ORDER BY date LIMIT 1")
     .get(patient.id);
 
   const trends = db
@@ -28,7 +28,7 @@ app.get('/api/dashboard', (req, res) => {
 
   // doses taken today
   const todayLogs = db
-    .prepare('SELECT medication_id FROM dose_logs WHERE date(logged_at) = date("now", "localtime")')
+    .prepare("SELECT medication_id FROM dose_logs WHERE date(logged_at) = date('now','localtime')")
     .all();
 
   const takenCount = todayLogs.length;
@@ -49,12 +49,12 @@ app.post('/api/medications/:id/take', (req, res) => {
   const med = db.prepare('SELECT * FROM medications WHERE id = ?').get(id);
   if (!med) return res.status(404).json({ error: 'Medication not found' });
 
-  db.prepare('INSERT INTO dose_logs (medication_id, logged_at, status, note) VALUES (?, datetime("now", "localtime"), "taken", ?)')
+  db.prepare("INSERT INTO dose_logs (medication_id, logged_at, status, note) VALUES (?, datetime('now','localtime'), 'taken', ?)")
     .run(id, req.body?.note || null);
 
   // count today's taken
   const takenCount = db
-    .prepare('SELECT COUNT(*) AS n FROM dose_logs WHERE date(logged_at) = date("now", "localtime")')
+    .prepare("SELECT COUNT(*) AS n FROM dose_logs WHERE date(logged_at) = date('now','localtime')")
     .get().n;
   const totalCount = db.prepare('SELECT COUNT(*) AS n FROM medications WHERE patient_id = ?').get(med.patient_id).n;
 
@@ -80,7 +80,7 @@ app.post('/api/appointments', (req, res) => {
   const patient = db.prepare("SELECT * FROM patients WHERE role = 'patient' LIMIT 1").get();
 
   const result = db.prepare(
-    'INSERT INTO appointments (patient_id, provider, specialty, date, time, note, status) VALUES (?, ?, ?, ?, ?, ?, "upcoming")'
+    "INSERT INTO appointments (patient_id, provider, specialty, date, time, note, status) VALUES (?, ?, ?, ?, ?, ?, 'upcoming')"
   ).run(patient.id, provider, specialty, date, time, note);
 
   res.json({ success: true, id: result.lastInsertRowid });
