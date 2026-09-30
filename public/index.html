@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mediroutine AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #F4F9FB;
+      --card: #FFFFFF;
+      --primary: #106D8A;
+      --lapis: #0D5C75;
+      --teal-light: #60B7D6;
+      --text: #333333;
+      --muted: #8899A6;
+      --border: #E6EEF2;
+      --avatar: #8A72F6;
+      --radius: 14px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+    /* Header */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 0;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .logo {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: linear-gradient(135deg, var(--primary), var(--teal-light));
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-weight: 800; font-size: 20px;
+    }
+    .brand h1 { font-size: 20px; font-weight: 700; color: var(--lapis); }
+    .avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--avatar); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 16px;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      box-shadow: 0 1px 3px rgba(16, 109, 138, 0.06);
+    }
+    .row { display: flex; gap: 20px; margin-bottom: 20px; }
+    .row .card { flex: 1; }
+    .card h2 {
+      font-size: 12px; font-weight: 600; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px;
+    }
+
+    /* Daily Meds */
+    .meds-body { display: flex; align-items: center; gap: 28px; }
+    .meds-info { flex: 1; }
+    .meds-count { font-size: 48px; font-weight: 800; color: var(--lapis); line-height: 1; }
+    .meds-sub { color: var(--muted); font-size: 14px; margin-top: 6px; }
+    .meds-tagline { color: var(--lapis); font-size: 13px; font-weight: 600; margin-top: 16px; }
+    .donut-wrap { position: relative; width: 120px; height: 120px; flex-shrink: 0; }
+    .donut-wrap svg { transform: rotate(-90deg); }
+    .donut-center {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+    }
+    .donut-center .num { font-size: 22px; font-weight: 800; color: var(--lapis); }
+    .donut-center .lbl { font-size: 11px; color: var(--muted); }
+
+    .dose-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+    .dose-pill {
+      padding: 6px 12px; background: #EEF4F7; border-radius: 999px;
+      font-size: 13px; font-weight: 600; color: var(--lapis); border: none; cursor: pointer;
+    }
+    .dose-pill.taken { background: #DCEFEA; color: #1C7A6A; text-decoration: line-through; }
+    .mark-btn {
+      margin-top: 16px; padding: 9px 18px; border-radius: 999px;
+      background: transparent; border: 1.5px solid var(--primary); color: var(--primary);
+      font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit;
+    }
+    .mark-btn:hover { background: var(--primary); color: #fff; }
+
+    /* Appointments */
+    .appt-line { display: flex; align-items: center; justify-content: space-between; }
+    .appt-provider { font-size: 15px; font-weight: 600; color: var(--text); }
+    .appt-specialty { color: var(--muted); font-size: 13px; margin-top: 2px; }
+    .appt-time { font-size: 15px; font-weight: 700; color: var(--lapis); flex-shrink: 0; }
+    .appt-note { color: var(--muted); font-size: 13px; margin-top: 10px; }
+
+    /* Trends */
+    .chart { margin-top: 8px; }
+    .chart-label { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+
+    /* Logs + Book */
+    .book-btn {
+      width: 100%; padding: 14px; border: none; border-radius: 10px;
+      background: var(--primary); color: #fff; font-size: 15px; font-weight: 600;
+      cursor: pointer; font-family: inherit; margin-top: 8px;
+    }
+    .book-btn:hover { background: var(--lapis); }
+    .log-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    .log-table td { padding: 10px 0; border-bottom: 1px solid var(--border); }
+    .log-table td:last-child { text-align: right; color: var(--muted); }
+    .log-table tr:last-child td { border-bottom: none; }
+
+    footer { text-align: center; color: var(--muted); font-size: 13px; padding: 28px 0 40px; }
+
+    /* Modal */
+    .modal-backdrop {
+      position: fixed; inset: 0; background: rgba(13, 49, 62, 0.4);
+      display: none; align-items: center; justify-content: center; z-index: 50;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal {
+      background: #fff; border-radius: var(--radius); padding: 28px; width: 100%;
+      max-width: 440px; box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+    }
+    .modal h3 { font-size: 18px; margin-bottom: 18px; color: var(--lapis); }
+    .field { margin-bottom: 14px; }
+    .field label { display: block; font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+    .field input {
+      width: 100%; padding: 10px 12px; border: 1px solid var(--border);
+      border-radius: 8px; font-family: inherit; font-size: 14px;
+    }
+    .modal-actions { display: flex; gap: 10px; margin-top: 18px; }
+    .modal-actions button {
+      flex: 1; padding: 11px; border-radius: 8px; font-weight: 600; cursor: pointer; font-family: inherit;
+    }
+    .modal-cancel { background: #EEF4F7; border: none; color: var(--text); }
+    .modal-submit { background: var(--primary); border: none; color: #fff; }
+    .toast {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+      background: var(--lapis); color: #fff; padding: 12px 20px; border-radius: 10px;
+      font-size: 14px; font-weight: 500; display: none; box-shadow: 0 6px 20px rgba(0,0,0,0.15); z-index: 60;
+    }
+    .toast.show { display: block; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo">+</div>
+        <h1>Mediroutine AI</h1>
+      </div>
+      <div class="avatar" id="avatar">M</div>
+    </header>
+
+    <!-- Daily Meds -->
+    <section class="card" style="margin-bottom:20px;">
+      <h2>Daily Meds</h2>
+      <div class="meds-body">
+        <div class="meds-info">
+          <div class="meds-count" id="meds-count">0</div>
+          <div class="meds-sub" id="meds-sub">0 medications scheduled for today</div>
+          <div class="dose-pills" id="dose-pills"></div>
+          <div class="meds-tagline">The Answer in One Second</div>
+          <button class="mark-btn" id="mark-taken">Mark Taken</button>
+        </div>
+        <div class="donut-wrap">
+          <svg width="120" height="120" viewBox="0 0 120 120">
+            <circle cx="60" cy="60" r="50" fill="none" stroke="#E6EEF2" stroke-width="14"/>
+            <circle id="arc" cx="60" cy="60" r="50" fill="none" stroke="#0D5C75" stroke-width="14"
+                    stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="0"/>
+          </svg>
+          <div class="donut-center">
+            <span class="num" id="donut-num">0/0</span>
+            <span class="lbl">taken</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Upcoming Appointments -->
+    <section class="card" style="margin-bottom:20px;">
+      <h2>Upcoming Appointments</h2>
+      <div class="appt" id="appointments-card"><p style="color:var(--muted)">No upcoming appointments.</p></div>
+    </section>
+
+    <!-- Health Trends -->
+    <div class="row">
+      <section class="card">
+        <h2>Health Trends</h2>
+        <div class="chart-label">Blood Pressure</div>
+        <svg id="chart-bp" class="chart" width="100%" height="120" viewBox="0 0 300 120" preserveAspectRatio="none"></svg>
+      </section>
+      <section class="card">
+        <h2>&nbsp;</h2>
+        <div class="chart-label">Heart Rate</div>
+        <svg id="chart-hr" class="chart" width="100%" height="120" viewBox="0 0 300 120" preserveAspectRatio="none"></svg>
+      </section>
+    </div>
+
+    <!-- Medication Logs + Book -->
+    <div class="row">
+      <section class="card">
+        <h2>Medication Logs</h2>
+        <table class="log-table" id="log-table">
+          <tbody id="log-body"></tbody>
+        </table>
+      </section>
+      <section class="card">
+        <h2>Care</h2>
+        <p style="color:var(--muted); font-size:14px; margin-bottom:14px;">Schedule your next check-up with your provider.</p>
+        <button class="book-btn" id="book-btn">Book Appointment</button>
+      </section>
+    </div>
+
+    <footer>&copy; 2026 <span id="footer-name">Mediroutine AI</span></footer>
+  </div>
+
+  <!-- Booking modal -->
+  <div class="modal-backdrop" id="modal-backdrop">
+    <div class="modal">
+      <h3>Book Appointment</h3>
+      <div class="field">
+        <label>Provider</label>
+        <input id="b-provider" placeholder="Dr. Smith">
+      </div>
+      <div class="field">
+        <label>Specialty</label>
+        <input id="b-specialty" placeholder="Cardiologist">
+      </div>
+      <div class="field">
+        <label>Date</label>
+        <input id="b-date" type="date">
+      </div>
+      <div class="field">
+        <label>Time</label>
+        <input id="b-time" placeholder="10:30 AM">
+      </div>
+      <div class="field">
+        <label>Note</label>
+        <input id="b-note" placeholder="Optional note">
+      </div>
+      <div class="modal-actions">
+        <button class="modal-cancel" id="modal-cancel">Cancel</button>
+        <button class="modal-submit" id="modal-submit">Book</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

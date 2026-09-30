@@ -1,0 +1,16 @@
+{
+  "name": "mediroutine-ai",
+  "version": "1.0.0",
+  "description": "Mediroutine AI — full health & medication management app",
+  "private": true,
+  "type": "module",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node --watch server/index.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.10.0",
+    "express": "^4.21.2"
+  }
+}

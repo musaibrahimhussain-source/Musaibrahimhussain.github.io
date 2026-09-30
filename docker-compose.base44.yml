@@ -1,16 +1,18 @@
 services:
   web:
-    image: nginx:alpine
+    image: node:22
     user: "0:0"
+    working_dir: /app
     ports:
-      - "3000:80"
+      - "3000:3000"
     volumes:
-      - ./:/usr/share/nginx/html:ro
-      - ./nginx.dev.conf:/etc/nginx/nginx.conf:ro
+      - ./:/app
+      - /app/node_modules
+    command: ["sh", "-ec", "npm install --no-audit --no-fund && exec npm run start"]
     restart: on-failure
     healthcheck:
-      test: ["CMD-SHELL", "wget -q --spider http://localhost:80/ || exit 1"]
+      test: ["CMD-SHELL", "node -e \"fetch('http://localhost:3000/api/dashboard').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))\""]
       interval: 10s
-      timeout: 5s
-      retries: 3
-      start_period: 5s
+      timeout: 8s
+      retries: 5
+      start_period: 25s
