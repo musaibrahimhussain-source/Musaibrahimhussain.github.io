@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Musa Ibrahim Hussain</title>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --card: #1a1d28;
+      --text: #e4e6eb;
+      --muted: #9ca3af;
+      --accent: #6366f1;
+      --accent-light: #818cf8;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .card {
+      max-width: 560px;
+      text-align: center;
+    }
+    .avatar {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #fff;
+      margin: 0 auto 1.5rem;
+    }
+    h1 { font-size: 1.75rem; margin-bottom: 0.5rem; }
+    .tagline { color: var(--muted); font-size: 1.05rem; margin-bottom: 2rem; }
+    .links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .links a {
+      display: block;
+      padding: 0.85rem 1.5rem;
+      background: var(--card);
+      color: var(--text);
+      text-decoration: none;
+      border-radius: 0.75rem;
+      transition: transform 0.15s ease, background 0.15s ease;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .links a:hover {
+      transform: translateY(-2px);
+      background: #232735;
+    }
+    footer {
+      margin-top: 2.5rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="avatar">M</div>
+    <h1>Musa Ibrahim Hussain</h1>
+    <p class="tagline">Welcome to my GitHub Pages site.</p>
+    <div class="links">
+      <a href="https://github.com/musaibrahimhussain-source" target="_blank" rel="noopener">GitHub Profile</a>
+    </div>
+    <footer>&copy; 2026 Musa Ibrahim Hussain</footer>
+  </div>
+</body>
+</html>
