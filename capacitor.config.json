@@ -1,0 +1,8 @@
+{
+  "appId": "com.mediroutine.ai",
+  "appName": "Mediroutine AI",
+  "webDir": "public",
+  "server": {
+    "androidScheme": "https"
+  }
+}

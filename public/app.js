@@ -1,3 +1,8 @@
+// API base — defaults to the current origin (same as before).
+// Set window.MEDIROUTINE_API_URL before this script loads to point the
+// mobile build (Capacitor) at your deployed backend.
+const API = (window.MEDIROUTINE_API_URL || '').replace(/\/$/, '');
+
 let state = {
   patient: null,
   medications: [],
@@ -11,7 +16,7 @@ const ARC_CIRCUM = 314; // 2 * PI * r (r=50)
 function $(sel) { return document.querySelector(sel); }
 
 async function loadDashboard() {
-  const res = await fetch('/api/dashboard');
+  const res = await fetch(`${API}/api/dashboard`);
   state = await res.json();
   renderAll();
 }
@@ -95,7 +100,7 @@ function drawLine(sel, values, color) {
 
 function renderLogs() {
   const tbody = $('#log-body');
-  fetch('/api/logs')
+  fetch(`${API}/api/logs`)
     .then(r => r.json())
     .then(({ logs }) => {
       tbody.innerHTML = logs.slice(0, 5).map(l => `
@@ -106,7 +111,7 @@ function renderLogs() {
 
 // ---- Actions ----
 async function takeMedication(id, btn) {
-  const res = await fetch(`/api/medications/${id}/take`, {
+  const res = await fetch(`${API}/api/medications/${id}/take`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({})
@@ -139,7 +144,7 @@ $('#modal-submit').addEventListener('click', async () => {
     note: $('#b-note').value
   };
   if (!payload.provider || !payload.date) { showToast('Provider and date are required.'); return; }
-  const res = await fetch('/api/appointments', {
+  const res = await fetch(`${API}/api/appointments`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)

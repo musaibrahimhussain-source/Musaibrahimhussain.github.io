@@ -7,10 +7,22 @@
   "main": "server/index.js",
   "scripts": {
     "start": "node server/index.js",
-    "dev": "node --watch server/index.js"
+    "dev": "node --watch server/index.js",
+    "mobile:init": "npx cap init Mediroutine AI com.mediroutine.ai --web-dir public",
+    "mobile:add-android": "npx cap add android",
+    "mobile:add-ios": "npx cap add ios",
+    "mobile:sync": "npx cap sync",
+    "mobile:open-android": "npx cap open android",
+    "mobile:open-ios": "npx cap open ios"
   },
   "dependencies": {
     "better-sqlite3": "^11.10.0",
     "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "@capacitor/android": "^8.5.2",
+    "@capacitor/cli": "^8.5.2",
+    "@capacitor/core": "^8.5.2",
+    "@capacitor/ios": "^8.5.2"
   }
 }
